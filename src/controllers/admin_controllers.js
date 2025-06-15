@@ -10,10 +10,20 @@ const registro = async (req, res) => {
   }
 
   // Verificar si el correo ya existe
-  const verificarEmailBDD = await users.findOne({ email });
-  if (verificarEmailBDD) {
-    return res.status(400).json({ msg: "Lo sentimos, este email ya está registrado" });
+  // Verificar si el correo ya existe         
+const verificarEmailBDD = await users.findOne({ email });
+
+if (verificarEmailBDD) {
+  if (verificarEmailBDD.confirmEmail) {
+    return res.status(400).json({ msg: "Lo sentimos, este email ya está registrado y confirmado" });
   }
+
+  // Si el usuario existe pero no ha confirmado, generamos nuevo token
+  verificarEmailBDD.crearToken();
+  await verificarEmailBDD.save();
+  await sendMailToRegister(email, verificarEmailBDD.token);
+  return res.status(200).json({ msg: "Reenviamos el correo de confirmación. Revisa tu bandeja." });
+}
 
   // Validar que las contraseñas coincidan
   if (password !== confirmPassword) {
