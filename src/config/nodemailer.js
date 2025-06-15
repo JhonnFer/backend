@@ -39,7 +39,7 @@ const sendMailToRecoveryPassword = async (userMail, token) => {
     html: `
       <h1>❤️🔥 AmiKuna 🔥 ❤️</h1>
       <p>Haz clic en el enlace para reestablecer tu contraseña:</p>
-      <a href="${process.env.URL_FRONTEND}/recuperarpassword/${token}">Reestablecer contraseña</a>
+      <a href="${process.env.URL_FRONTEND}/recuperarPassword/${token}">Reestablecer contraseña</a>
       <hr>
       <footer>El equipo de AmiKuna te da la más cordial bienvenida.</footer>
     `,
